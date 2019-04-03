@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>HREXT08 R00lz!</title>
+	<title>HREXT08 Project</title>
 	<script
 		src="https://code.jquery.com/jquery-3.3.1.js"
 		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 		crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<!--
 	<div class="container">
 		<form action="" method="" class="form">
 			<div class="form">
@@ -26,8 +28,41 @@
 				<button class="button" id="btn-update" type="button">Update</button>
 				<button class="button" id="btn-delete" type="button">Delete</button>
 			</div>
-			<!-- clear button? -->
 		</form>	
+-->
+	<div id="container">
+		<div id="top">
+			<div id="top1">
+		<form action="" method="" class="form">
+			<div class="form">
+				<label for="movieName">Enter movie: </label>
+				<input type="text" name="movieName" id="movieName" required>
+			</div>
+			<div class="form">
+				<button class="button" id="btn-movie" type="button">Search!</button>
+			</div>
+		</form>
+			</div>
+		<div id="top2">
+		<form action="" method="" class="form">
+			<div class="form">
+				<label for="movieName">Enter movie 2: </label>
+				<input type="text" name="movieName2" id="movieName2" required>
+			</div>
+			<div class="form">
+				<button class="button" id="btn-movie2" type="button">Search!</button>
+			</div>
+		</form>
+		</div>
+	</div>
+		<div id="searchContainer">
+		<div id="searchResults"></div>
+		<div id="searchResults2"></div>
+		</div>
+	</div>
+		<button class="show" id="btn-show" type="button">Show ratings!</button>
+		<button class="clear" id="btn-clear" type="button">Clear results!</button>
+<!--
 		<table>
 			<thead>
 				<tr>
@@ -42,18 +77,9 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
 	<div id="statusLabel">Status:</div>
-
+-->
 	<script src="app/app.js"></script>
-  <!--
-   table to view data
-
-   form for input for the crud operations
-
-   corgi gif
-   cowbell sound
-  -->
-
+	<script src="app/appKey.js"></script>
 </body>
 </html>

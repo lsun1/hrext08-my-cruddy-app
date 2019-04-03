@@ -11,11 +11,70 @@ var updateStatusLabel = function(message) {
 	$('#statusLabel').text('Status: ' + message);
 }
 
+var movieName;
+
  //jQuery document ready initialization stuff
  ////button and form event handlers
  // logic for determining action probably needs to go in the event handler
 $(document).ready(function () {
 	loadLocalStorage();
+
+	$('#btn-movie').on('click', function(e) {
+		$('#searchResults').html('');
+		movieName = $('#movieName').val();
+		var searchObj = searchMovie(movieName);
+		setTimeout(function() {
+			searchObj["responseJSON"]["Search"].forEach(function(val) {
+				var imdbID = String(val['imdbID']);
+				$('#searchResults').append(`<div class="searchTitle ${imdbID}">${val['Title']} (${val['Year']})</div>`);				
+				});
+		},500);
+	});
+
+	$('#btn-movie2').on('click', function(e) {
+		$('#searchResults2').html('');
+		movieName = $('#movieName2').val();
+		var searchObj = searchMovie(movieName);
+		setTimeout(function() {
+			searchObj["responseJSON"]["Search"].forEach(function(val) {
+				var imdbID = String(val['imdbID']);
+				$('#searchResults2').append(`<div class="searchTitle ${imdbID}">${val['Title']} (${val['Year']})</div>`);				
+				});
+		},500);
+	});
+
+	$('#searchResults, .searchTitle').on('click', function(e) {
+		if ($(e.target)[0]["classList"][1] === undefined) {
+			return;
+		};
+		$('#searchResults').html('').fadeOut();
+		$imdbID = $(e.target)[0]["classList"][1];
+		console.log($imdbID);
+		var movieStats = getMovie($imdbID);
+		return setTimeout(function() {
+			console.log(movieStats["responseJSON"]);
+			$('#searchResults').append(`<img src='https://img.omdbapi.com/?apikey=${apiKey}&i=${$imdbID}'><div class="movie1">imdb rating: ${movieStats["responseJSON"]["imdbRating"]}</div>`).fadeIn();
+			$('#searchResults').removeClass('.searchTitle');
+			return movieStats["responseJSON"]["imdbRating"];
+		},500);
+	});
+
+	$('#searchResults2, .searchTitle').on('click', function(e) {
+		if ($(e.target)[0]["classList"][1] === undefined) {
+			return;
+		};
+		$('#searchResults2').html('').fadeOut();
+		$imdbID = $(e.target)[0]["classList"][1];
+		console.log($imdbID);
+		var movieStats = getMovie($imdbID);
+		return setTimeout(function() {
+			console.log(movieStats["responseJSON"]);
+			$('#searchResults2').append(`<img src='https://img.omdbapi.com/?apikey=${apiKey}&i=${$imdbID}'><div class="movie1">imdb rating: ${movieStats["responseJSON"]["imdbRating"]}</div>`).fadeIn();
+			$('#searchResults2').removeClass('.searchTitle');
+			return movieStats["responseJSON"]["imdbRating"];
+		},500);
+	});
+
 
 	$('#btn-create').on('click', function(e) {
 		var key = $('#key').val();
@@ -69,7 +128,16 @@ $(document).ready(function () {
 		}
 
 		loadLocalStorage();
-	});	
+	});
+
+	$('#btn-show').on('click', function(e) {
+		$('.movie1, .movie2').show();
+	})	
+
+	$('#btn-clear').on('click', function(e) {
+		$('#searchResults').html('');
+		$('#searchResults2').html('');
+	})
 
 });
 /*
@@ -92,6 +160,18 @@ PAGE CONTENT STUFF
 //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 ////create new entry
 //localStorage.setItem(key, value)
+var searchMovie = function(val) {
+	return $.getJSON("https://www.omdbapi.com/?s="+val+"&apikey="+apiKey, function(data) {
+		return data;
+	});
+}
+
+var getMovie = function(val) {
+	return $.getJSON("https://www.omdbapi.com/?i="+val+"&apikey="+apiKey, function(data) {
+		return data;
+	});
+}
+
 var createEntry = function(key, value) {
 	return localStorage.setItem(key, value);
 }
